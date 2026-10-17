@@ -1,0 +1,29 @@
+{
+  "name": "Tymly",
+  "version": "1.0.0",
+  "description": "A small overlay timer for sermons",
+  "main": "main.js",
+  "author": "Dramatic_Dev",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.tymly.app",
+    "productName": "Tymly",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}

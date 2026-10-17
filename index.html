@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div id="timer">30:00</div> 
+
+
+<script>
+  let totalTime = 30 * 60; // 30 minutes in seconds
+  let timerRunning = false;
+  let interval = null;
+  let lastPreset = totalTime;
+
+  const timerEl = document.getElementById("timer");
+
+    const presets = {
+    "1": 30 * 60,
+    "2": 45 * 60,
+    "3": 60 * 60,
+    "4": 90 * 60,
+  };
+
+  function formatTime(seconds) {
+    const mins = Math.floor(Math.abs(seconds) / 60);
+    const secs = Math.abs(seconds) % 60;
+    return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+
+  function updateTimer() {
+    if (!timerRunning) return;
+
+    // Update text
+    timerEl.textContent = (totalTime >= 0 ? "" : "-") + formatTime(totalTime);
+
+    // Color logic
+    if (totalTime > 600) {
+      timerEl.style.color = "Blue"; // More than 5 mins
+    } else if (totalTime > 0) {
+      timerEl.style.color = "orange"; // Last 5 mins
+    } else {
+      timerEl.style.color = "red"; // Overtime
+    }
+
+    totalTime--;
+  }
+
+  document.addEventListener("keydown", (e) =>{
+
+    if (presets [e.key]) {
+      if (interval !== null) {
+        clearInterval(interval);
+        interval = null;
+      }
+
+      totalTime = presets[e.key];
+      lastPreset = presets[e.key];
+      timerRunning = false;
+      timerEl.textContent = formatTime(totalTime);
+    }
+
+    if (e.key === "F1"){
+      if (interval !== null) return;
+        interval = setInterval (updateTimer, 1000);
+        timerRunning = true;
+    }
+
+    if (e.key === "F2") {
+      if (interval !== null){
+        clearInterval(interval);
+        interval = null;
+    }
+      totalTime = lastPreset;
+      timerRunning = false;
+      timerEl.textContent = formatTime(totalTime);
+    }
+  });
+
+</script>
+</body>
+</html>
